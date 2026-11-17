@@ -22,7 +22,7 @@ color:var(--color-fg);font-size:14px;line-height:1.45;padding:clamp(12px,3vw,32p
 #dash-root .domain{stroke:var(--cds-chart-axis)}
 #dash-root .tick line{stroke:var(--cds-chart-grid)}
 .dash-skeleton{color:var(--color-fg-muted)}
-#dash-root .ia-weblink{display:none}
+#dash-root .ia-weblink{display:none!important}
 #dash-root .ia-multi{grid-template-columns:repeat(auto-fill,minmax(min(100%,15rem),1fr))}
 </style>
 <script>// https://d3js.org v7.9.0 Copyright 2010-2023 Mike Bostock
@@ -162,6 +162,85 @@ window.dash = (() => {
 .ia-per[hidden] { display: none; }
 .per-otro #kpi-cards .ia-read { display: none; }
 .per-otro .ia-per { border-left-color: #2a78d6; }
+/* ===== Decoración Altesa (17/11/2026, a petición de Maria) ===== */
+.ia { --alt-navy: #1B2A41; --alt-navy2: #2C4366; --alt-yellow: #F5C400; --alt-blue: #2A78D6; --alt-teal: #129C8C; --alt-green: #1E9E57; --alt-purple: #6E4FD1; --alt-orange: #E8742A; }
+
+/* Cabecera: banda oscura con acento amarillo */
+.ia-head { background: linear-gradient(120deg, var(--alt-navy) 0%, var(--alt-navy2) 100%); color: #fff; border-radius: 14px; padding: clamp(18px, 3vw, 30px) clamp(18px, 3vw, 34px); position: relative; overflow: hidden; box-shadow: 0 6px 20px rgba(27,42,65,.18); border-bottom: 5px solid var(--alt-yellow); }
+.ia-head::after { content: ""; position: absolute; right: -60px; top: -60px; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, rgba(245,196,0,.28), rgba(245,196,0,0) 70%); pointer-events: none; }
+.ia-head .ia-kicker { color: var(--alt-yellow); font-weight: 700; letter-spacing: .12em; }
+.ia-head .ia-title { color: #fff; }
+.ia-head .ia-corte { color: #fff; display: inline-block; background: rgba(245,196,0,.16); border: 1px solid rgba(245,196,0,.5); padding: 4px 12px; border-radius: 999px; width: fit-content; }
+.ia-head .ia-take { color: rgba(255,255,255,.88); font-size: .95rem; }
+.ia-head .ia-hint, .ia-head .ia-weblink { color: rgba(255,255,255,.7) !important; }
+.ia-head .ia-mark { width: 18px; height: 18px; border-radius: 4px; box-shadow: 0 0 0 3px rgba(245,196,0,.25); }
+
+/* Pestañas tipo botón */
+.ia-tabs { border-bottom: 0; gap: 8px; }
+.ia-tab { border: 1px solid var(--color-border-line); border-radius: 999px; background: var(--color-panel); padding: 8px 18px; margin: 0; font-weight: 600; transition: all .15s; }
+.ia-tab:hover { border-color: var(--alt-yellow); color: var(--color-fg); }
+.ia-tab[aria-selected="true"] { background: var(--alt-navy); color: #fff; border-color: var(--alt-navy); box-shadow: inset 0 -3px 0 var(--alt-yellow), 0 3px 10px rgba(27,42,65,.2); }
+
+/* Tarjetas */
+.ia-card { border-radius: 12px; box-shadow: 0 1px 3px rgba(11,11,11,.05), 0 4px 14px rgba(11,11,11,.04); }
+.ia-h2 { font-size: 1.05rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--color-fg); display: flex; align-items: center; gap: 10px; padding-bottom: 8px; border-bottom: 2px solid color-mix(in srgb, var(--alt-yellow) 55%, transparent); }
+.ia-h2::before { content: ""; width: 6px; height: 1.15em; border-radius: 3px; background: var(--alt-yellow); flex: none; }
+
+/* KPI de cabecera: franja de color e icono */
+.ia-tile { --acc: var(--alt-blue); border-top: 5px solid var(--acc); position: relative; background: linear-gradient(180deg, color-mix(in srgb, var(--acc) 9%, var(--color-panel)) 0%, var(--color-panel) 70%); transition: transform .15s, box-shadow .15s; }
+.ia-tile:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(11,11,11,.10); border-color: var(--color-border-line); border-top-color: var(--acc); }
+.ia-tile:nth-child(1) { --acc: var(--alt-blue); } .ia-tile:nth-child(2) { --acc: #3E8FE8; }
+.ia-tile[data-tile="acum"] { --acc: var(--alt-teal); }
+.ia-tile[data-tile="conv"] { --acc: var(--alt-green); }
+.ia-tile[data-tile="prog"] { --acc: var(--alt-purple); }
+.ia-tile[data-tile="presup"] { --acc: var(--alt-orange); }
+.ia-tile::after { position: absolute; top: 12px; right: 14px; font-size: 1.3rem; opacity: .85; }
+.ia-tile:nth-child(1)::after { content: "📈"; } .ia-tile:nth-child(2)::after { content: "💶"; }
+.ia-tile[data-tile="acum"]::after { content: "🗓️"; } .ia-tile[data-tile="conv"]::after { content: "🛍️"; }
+.ia-tile[data-tile="prog"]::after { content: "👓"; } .ia-tile[data-tile="presup"]::after { content: "📋"; }
+.ia-tile-label { text-transform: uppercase; letter-spacing: .05em; font-weight: 700; color: var(--acc); padding-right: 2rem; }
+.ia-tile-num { font-family: var(--font-anthropic-sans); font-weight: 800; font-size: 2.1rem; color: var(--color-fg); }
+
+/* Selector de periodo */
+.ia-per { border-radius: 12px; border-left-width: 6px; }
+
+/* Semáforo: cabecera oscura, filas alternas, celdas más vivas */
+.ia-table { border-spacing: 4px; }
+.ia-table thead th { background: var(--alt-navy); color: #fff; border-radius: 8px; padding: 8px 6px; font-weight: 700; }
+.ia-table thead th small { color: rgba(255,255,255,.7); }
+.ia-table tbody td:first-child { font-weight: 700; padding-left: 10px; border-left: 4px solid var(--alt-yellow); background: color-mix(in srgb, var(--alt-yellow) 8%, var(--color-panel)); }
+.ia-table tbody tr:nth-child(even) td:not(.ia-ok):not(.ia-warn):not(.ia-bad):not(.ia-na) { background-color: color-mix(in srgb, var(--color-fg) 3%, transparent); }
+.ia-table td { font-weight: 600; }
+.ia-ok { background: color-mix(in srgb, var(--ia-ok) 32%, transparent); box-shadow: inset 0 -3px 0 color-mix(in srgb, var(--ia-ok) 70%, transparent); }
+.ia-warn { background: color-mix(in srgb, var(--ia-warn) 48%, transparent); box-shadow: inset 0 -3px 0 color-mix(in srgb, var(--ia-warn) 90%, transparent); }
+.ia-bad { background: color-mix(in srgb, var(--ia-bad) 30%, transparent); box-shadow: inset 0 -3px 0 color-mix(in srgb, var(--ia-bad) 70%, transparent); }
+.ia-sw { width: 14px; height: 14px; border-radius: 4px; }
+.ia-legend { font-weight: 600; }
+
+/* Punto a punto: barras redondeadas */
+.ia-bar-track { height: 18px; border-radius: 9px; }
+.ia-bar-fill { border-radius: 9px; opacity: .95; }
+.ia-bar-name { font-weight: 600; }
+.ia-read { border-left-width: 5px; border-radius: 0 10px 10px 0; background: color-mix(in srgb, var(--alt-yellow) 12%, transparent); }
+
+/* Ficha por tienda */
+#fichas > .ia-card { border-top: 6px solid var(--alt-navy); }
+.ia-fname { font-family: var(--font-anthropic-sans); font-weight: 800; font-size: 1.25rem; text-transform: uppercase; letter-spacing: .04em; color: var(--color-fg); display: flex; align-items: center; gap: 8px; }
+.ia-fname::before { content: "🏬"; font-size: 1.1rem; }
+.ia-mini div { font-weight: 600; }
+.ia-block { padding: 8px 10px; border-radius: 8px; border-left: 4px solid var(--color-border-line); background: color-mix(in srgb, var(--color-fg) 3%, transparent); }
+.ia-block:has(.ia-block-t.ok) { border-left-color: var(--alt-green); background: color-mix(in srgb, var(--alt-green) 9%, transparent); }
+.ia-block:has(.ia-block-t.bad) { border-left-color: #D62839; background: color-mix(in srgb, #D62839 8%, transparent); }
+.ia-block:has(.ia-block-t.act) { border-left-color: var(--alt-blue); background: color-mix(in srgb, var(--alt-blue) 8%, transparent); }
+.ia-block:has(.ia-block-t.warn) { border-left-color: var(--alt-yellow); background: color-mix(in srgb, var(--alt-yellow) 14%, transparent); }
+.ia-block-t { text-transform: uppercase; letter-spacing: .05em; font-weight: 800; }
+.ia-block-t.act { color: var(--alt-blue); }
+.ia-chip { font-weight: 600; padding: 5px 14px; }
+.ia-chip[aria-pressed="true"] { background: var(--alt-navy); color: #fff; border-color: var(--alt-navy); box-shadow: inset 0 -2px 0 var(--alt-yellow); }
+
+/* Evolución */
+.ia-mini-card { border-radius: 10px; border-top: 4px solid var(--alt-yellow); }
+.ia-mini-h { font-weight: 800; }
 </style>
 
 <div class="ia" id="ia-root">
